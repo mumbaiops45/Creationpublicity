@@ -1,26 +1,547 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* =============================================================================
+   DESIGN TOKENS
+   Brand blue taken from the Creation Publicity business card, on white.
+   Change the --color-brand-* ramp below and the whole site re-colours.
+   ========================================================================== */
+
+@theme {
+  /* Brand — the card blue */
+  --color-brand-50: #eff7ff;
+  --color-brand-100: #dceefd;
+  --color-brand-200: #bfe0fb;
+  --color-brand-300: #90cbf8;
+  --color-brand-400: #5aadf1;
+  --color-brand-500: #2b8fe2;
+  --color-brand-600: #0f76bc; /* primary — matches the printed card */
+  --color-brand-700: #0c5f9a;
+  --color-brand-800: #0e4f7e;
+  --color-brand-900: #114268;
+  --color-brand-950: #0b2b45;
+
+  /* Ink — deep navy-blue for headings, drawn from the logo wordmark */
+  --color-ink-950: #071d30;
+  --color-ink-900: #0b2c47;
+  --color-ink-800: #123c5d;
+  --color-ink-700: #1d4f74;
+  --color-ink-600: #2f6488;
+
+  /* Surfaces — neutral grey, so the blue is carried by the brand elements
+     rather than by every background panel. */
+  --color-surface: #ffffff;
+  --color-surface-2: #f4f5f7;
+  --color-surface-3: #e9ebef;
+  --color-line: #e3e6ea;
+
+  /* Text */
+  --color-body: #3e5972;
+  --color-muted: #5e7b92;
+  --color-faint: #8aa2b6;
+
+  /* Warm accent, used sparingly */
+  --color-gold-400: #f7c85c;
+  --color-gold-500: #eaa61f;
+  --color-gold-600: #c9860c;
+
+  --font-display: var(--font-sora), 'Segoe UI', system-ui, sans-serif;
+  --font-sans: var(--font-inter), 'Segoe UI', system-ui, sans-serif;
+
+  --radius-card: 1.25rem;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+/* =============================================================================
+   BASE
+   ========================================================================== */
 
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --header-height: 5rem;
+    color-scheme: light;
+  }
+
+  * {
+    border-color: var(--color-line);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
+
+    /*
+      Reveal animations park elements off-screen horizontally (data-reveal
+      left/right) until they animate in, and decorative blurs bleed past the
+      edge. Without this the page gains a horizontal scrollbar on mobile.
+
+      `clip` rather than `hidden` on purpose: `hidden` would make this a scroll
+      container and break every `position: sticky` sidebar on the site.
+    */
+    overflow-x: clip;
+  }
+
+  /* ScrollSmoother drives scrolling itself; native smooth scroll fights it. */
+  html:has(#smooth-wrapper) {
+    scroll-behavior: auto;
+  }
+
+  body {
+    background-color: var(--color-surface);
+    color: var(--color-body);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: clip;
+  }
+
+  h1, h2, h3, h4, h5 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    color: var(--color-ink-900);
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background: var(--color-brand-600);
+    color: #ffffff;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-brand-600);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-surface-2);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-brand-200);
+    border-radius: 99px;
+    border: 2px solid var(--color-surface-2);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-brand-400);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* =============================================================================
+   LAYOUT + COMPONENT UTILITIES
+   ========================================================================== */
+
+@layer components {
+  .container-x {
+    width: 100%;
+    max-width: 80rem;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+  @media (min-width: 768px) {
+    .container-x {
+      padding-inline: 2rem;
+    }
+  }
+  @media (min-width: 1280px) {
+    .container-x {
+      padding-inline: 2.5rem;
+    }
+  }
+
+  .section {
+    position: relative;
+    padding-block: 5rem;
+  }
+  @media (min-width: 768px) {
+    .section {
+      padding-block: 7rem;
+    }
+  }
+
+  /* --- Surfaces ---------------------------------------------------------- */
+
+  /* Kept the name `.glass` so markup did not have to change wholesale; on the
+     light theme it is a clean white card with a blue-tinted edge. */
+  .glass {
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    box-shadow:
+      0 1px 2px rgba(11, 44, 71, 0.04),
+      0 8px 24px -16px rgba(11, 44, 71, 0.16);
+  }
+
+  /* On tinted sections a plain white card needs a touch more separation. */
+  .section-tinted .glass {
+    box-shadow:
+      0 1px 2px rgba(11, 44, 71, 0.05),
+      0 10px 30px -18px rgba(11, 44, 71, 0.22);
+  }
+
+  .glass-hover {
+    transition:
+      border-color 0.4s var(--ease-out-expo),
+      transform 0.5s var(--ease-out-expo),
+      box-shadow 0.5s var(--ease-out-expo);
+  }
+  .glass-hover:hover {
+    border-color: var(--color-brand-300);
+    transform: translateY(-4px);
+    box-shadow:
+      0 2px 4px rgba(11, 44, 71, 0.05),
+      0 22px 46px -22px rgba(15, 118, 188, 0.42);
+  }
+
+  /* --- Type -------------------------------------------------------------- */
+
+  .gradient-text {
+    background: linear-gradient(
+      100deg,
+      var(--color-brand-800) 0%,
+      var(--color-brand-600) 45%,
+      var(--color-brand-500) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* On a dark ground (the footer, the hero overlay) the light variant reads. */
+  .gradient-text-light {
+    background: linear-gradient(
+      100deg,
+      #ffffff 0%,
+      var(--color-brand-200) 55%,
+      var(--color-brand-300) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-brand-600);
+  }
+
+  /* --- Buttons ----------------------------------------------------------- */
+
+  .btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    border-radius: 999px;
+    padding: 0.9rem 1.75rem;
+    font-family: var(--font-display);
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    line-height: 1;
+    white-space: nowrap;
+    cursor: pointer;
+    overflow: hidden;
+    transition:
+      transform 0.35s var(--ease-out-expo),
+      box-shadow 0.35s var(--ease-out-expo),
+      background-color 0.35s var(--ease-out-expo),
+      color 0.35s var(--ease-out-expo),
+      border-color 0.35s var(--ease-out-expo);
+  }
+  .btn:active {
+    transform: scale(0.97);
+  }
+
+  .btn-primary {
+    background: linear-gradient(120deg, var(--color-brand-500), var(--color-brand-700));
+    color: #ffffff;
+    box-shadow: 0 10px 26px -12px rgba(15, 118, 188, 0.75);
+  }
+  .btn-primary:hover {
+    box-shadow: 0 18px 40px -14px rgba(15, 118, 188, 0.85);
+    transform: translateY(-2px);
+  }
+
+  .btn-ghost {
+    border: 1px solid var(--color-brand-300);
+    color: var(--color-brand-700);
+    background: var(--color-surface);
+  }
+  .btn-ghost:hover {
+    border-color: var(--color-brand-500);
+    background: var(--color-brand-50);
+    color: var(--color-brand-800);
+    transform: translateY(-2px);
+  }
+
+  /* Solid white button — maximum contrast on the dark blue footer. */
+  .btn-light {
+    background: #ffffff;
+    color: var(--color-brand-700);
+    box-shadow: 0 10px 26px -12px rgba(0, 0, 0, 0.4);
+  }
+  .btn-light:hover {
+    background: var(--color-brand-50);
+    color: var(--color-brand-800);
+    transform: translateY(-2px);
+  }
+
+  /* For use on the dark footer / dark overlays. */
+  .btn-on-dark {
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.08);
+  }
+  .btn-on-dark:hover {
+    border-color: #ffffff;
+    background: rgba(255, 255, 255, 0.16);
+    transform: translateY(-2px);
+  }
+
+  .btn-gold {
+    background: linear-gradient(115deg, var(--color-gold-400), var(--color-gold-600));
+    color: #201400;
+    box-shadow: 0 10px 30px -12px rgba(234, 166, 31, 0.6);
+  }
+  .btn-gold:hover {
+    transform: translateY(-2px);
+  }
+
+  /* --- Decorative backgrounds -------------------------------------------- */
+
+  .aurora {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .aurora::before,
+  .aurora::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(90px);
+  }
+  .aurora::before {
+    width: 46rem;
+    height: 46rem;
+    top: -18rem;
+    right: -14rem;
+    background: radial-gradient(circle, var(--color-brand-200), transparent 68%);
+    opacity: 0.75;
+  }
+  .aurora::after {
+    width: 38rem;
+    height: 38rem;
+    bottom: -16rem;
+    left: -12rem;
+    background: radial-gradient(circle, var(--color-brand-100), transparent 70%);
+    opacity: 0.9;
+  }
+
+  .grid-lines {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background-image:
+      linear-gradient(rgba(15, 118, 188, 0.07) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(15, 118, 188, 0.07) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, #000 30%, transparent 78%);
+  }
+
+  /* Curved top edge on the footer: an elliptical radius, so the blue block
+     rises out of the white page above it rather than meeting it in a hard
+     line. The white page shows through at the two top corners by design. */
+  .footer-arc {
+    border-top-left-radius: 50% 2.5rem;
+    border-top-right-radius: 50% 2.5rem;
+  }
+  @media (min-width: 768px) {
+    .footer-arc {
+      border-top-left-radius: 50% 4.5rem;
+      border-top-right-radius: 50% 4.5rem;
+    }
+  }
+
+  .divider-glow {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--color-brand-300), transparent);
+  }
+
+  /* --- Form controls ----------------------------------------------------- */
+
+  .field-label {
+    display: block;
+    margin-bottom: 0.45rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--color-ink-800);
+  }
+
+  .field-input {
+    width: 100%;
+    border-radius: 0.85rem;
+    border: 1px solid var(--color-line);
+    background: var(--color-surface);
+    padding: 0.8rem 1rem;
+    font-size: 0.95rem;
+    color: var(--color-ink-900);
+    transition:
+      border-color 0.3s ease,
+      box-shadow 0.3s ease,
+      background-color 0.3s ease;
+  }
+  .field-input::placeholder {
+    color: var(--color-faint);
+  }
+  .field-input:focus {
+    outline: none;
+    border-color: var(--color-brand-500);
+    box-shadow: 0 0 0 3px rgba(43, 143, 226, 0.18);
+  }
+  .field-input[aria-invalid='true'] {
+    border-color: #dc2626;
+    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.12);
+  }
+
+  select.field-input {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230f76bc' stroke-width='2.5' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1.05rem;
+    padding-right: 2.75rem;
+  }
+  input[type='date'].field-input::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+  }
+
+  .checkbox-tile {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.65rem;
+    border-radius: 0.75rem;
+    border: 1px solid var(--color-line);
+    background: var(--color-surface);
+    padding: 0.7rem 0.85rem;
+    font-size: 0.875rem;
+    line-height: 1.35;
+    color: var(--color-body);
+    cursor: pointer;
+    transition:
+      border-color 0.25s ease,
+      background-color 0.25s ease,
+      color 0.25s ease;
+  }
+  .checkbox-tile:hover {
+    border-color: var(--color-brand-300);
+    background: var(--color-brand-50);
+  }
+  .checkbox-tile:has(input:checked) {
+    border-color: var(--color-brand-500);
+    background: var(--color-brand-50);
+    color: var(--color-ink-900);
+    font-weight: 500;
+  }
+  .checkbox-tile input {
+    margin-top: 0.15rem;
+    width: 1rem;
+    height: 1rem;
+    flex-shrink: 0;
+    accent-color: var(--color-brand-600);
+  }
+}
+
+/* =============================================================================
+   ANIMATION
+   Elements tagged for GSAP start hidden ONLY when JS is running and motion is
+   allowed — so the page is fully readable with JS off, and static for anyone
+   who has asked for reduced motion.
+   ========================================================================== */
+
+@media (prefers-reduced-motion: no-preference) {
+  html.js-ready [data-reveal],
+  html.js-ready [data-reveal-child] > * {
+    opacity: 0;
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee var(--marquee-duration, 40s) linear infinite;
+}
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+/* Typewriter caret on the home-page headline. */
+@keyframes caret-blink {
+  0%,
+  45% {
+    opacity: 1;
+  }
+  55%,
+  100% {
+    opacity: 0;
+  }
+}
+.caret-blink {
+  animation: caret-blink 1.05s steps(1, end) infinite;
+}
+
+@keyframes scroll-hint {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.25;
+  }
+  50% {
+    transform: translateY(9px);
+    opacity: 1;
+  }
+}
+.scroll-hint {
+  animation: scroll-hint 2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .marquee-track {
+    animation: none;
+  }
 }
