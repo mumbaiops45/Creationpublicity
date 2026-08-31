@@ -1,11 +1,12 @@
+import Link from 'next/link'
+import Image from 'next/image'
 import { profileStats, headlineStats } from '@/data/stats'
-import { timeline } from '@/data/team'
 import { services } from '@/data/services'
 import PageHero from '@/components/common/PageHero'
 import Counter from '@/components/common/Counter'
 import SectionTitle from '@/components/common/SectionTitle'
 import CtaBanner from '@/components/home/CtaBanner'
-import { ServiceIcon } from '@/components/common/Icons'
+import { ArrowIcon, CheckIcon } from '@/components/common/Icons'
 
 export const metadata = {
   title: 'Our Profile in Numbers — Statistics',
@@ -23,11 +24,45 @@ export default function StatisticsPage() {
         title="Sixteen years of work,"
         highlight="counted honestly"
         lead="Every figure on this page is drawn from delivered, invoiced campaigns — not pitches, projections or industry estimates."
-      />
+        media={
+          <div
+            className="relative aspect-[6/5] overflow-hidden rounded-[1.5rem] border border-line shadow-[0_26px_58px_-30px_rgba(11,44,71,0.55)]"
+            data-reveal-image
+          >
+            <Image
+              src="/images/statistics/statistics-banner.webp"
+              alt="Creation Publicity campaigns running across hoardings, metro, bus and press media"
+              fill
+              priority
+              sizes="(min-width: 1024px) 40vw, 100vw"
+              className="object-cover"
+            />
+          </div>
+        }
+      >
+        <ul className="mt-7 space-y-2.5">
+          {[
+            'Delivered and invoiced work only — no pitches or projections',
+            'Inventory we hold or have contracted, not aggregator listings',
+            'Restated at the close of each financial year',
+          ].map((point) => (
+            <li
+              key={point}
+              className="flex items-start gap-3 text-[0.93rem] leading-relaxed text-body"
+            >
+              <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-brand-100 text-brand-600">
+                <CheckIcon className="h-3 w-3" />
+              </span>
+              {point}
+            </li>
+          ))}
+        </ul>
+      </PageHero>
 
       {/* ---------------- Headline numbers ---------------- */}
-      <section className="pb-8">
-        <div className="container-x">
+      <section className="section section-tinted relative overflow-hidden border-y border-line bg-surface-2">
+        <div className="aurora opacity-40" />
+        <div className="container-x relative z-10">
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4" data-reveal-child>
             {headlineStats.map((stat) => (
               <div
@@ -54,7 +89,11 @@ export default function StatisticsPage() {
       </section>
 
       {/* ---------------- Grouped profile ---------------- */}
-      {profileStats.map((group, groupIndex) => (
+      {/* 'Scale' is dropped: it restates the four headline numbers directly
+          above it. Only the groups that add new figures are rendered. */}
+      {profileStats
+        .filter((group) => group.group !== 'Scale')
+        .map((group, groupIndex) => (
         <section
           key={group.group}
           className={
@@ -66,7 +105,7 @@ export default function StatisticsPage() {
           {groupIndex % 2 === 1 && <div className="aurora opacity-40" />}
 
           <div className="container-x relative z-10">
-            <SectionTitle eyebrow={`0${groupIndex + 1} — ${group.group}`} title={group.group} />
+            <SectionTitle eyebrow={`0${groupIndex + 1}`} title={group.group} />
 
             <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4" data-reveal-child>
               {group.items.map((item) => (
@@ -88,11 +127,12 @@ export default function StatisticsPage() {
             </div>
           </div>
         </section>
-      ))}
+        ))}
 
       {/* ---------------- Service reach strip ---------------- */}
-      <section className="section relative overflow-hidden">
-        <div className="grid-lines opacity-50" />
+      {/* border-t: the Delivery group above is white too, so without it the
+          two bands run together. */}
+      <section className="section relative overflow-hidden border-t border-line">
 
         <div className="container-x relative z-10">
           <SectionTitle
@@ -103,60 +143,49 @@ export default function StatisticsPage() {
             lead="Inventory depth across all twelve disciplines, held or contracted."
           />
 
-          <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3" data-reveal-child>
+          {/* Each discipline's headline number, set on the photograph of the
+              medium itself — the figures stop being abstract. */}
+          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3" data-reveal-child>
             {services.map((service) => (
-              <div
+              <Link
                 key={service.slug}
-                className="glass flex items-center gap-4 rounded-xl p-5"
+                href={`/services/${service.slug}`}
+                className="group block overflow-hidden rounded-2xl border border-line bg-white shadow-[0_1px_3px_rgba(11,44,71,0.05)] transition-[transform,box-shadow,border-color] duration-500 ease-out-expo hover:-translate-y-1.5 hover:border-brand-300 hover:shadow-[0_18px_40px_-20px_rgba(15,118,188,0.45)]"
               >
-                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-brand-200 bg-brand-50 text-brand-600">
-                  <ServiceIcon name={service.icon} className="h-5 w-5" />
-                </span>
-                <div className="min-w-0">
-                  <p className="font-display text-lg font-extrabold text-ink-900">
-                    {service.stat.value}
-                  </p>
-                  <p className="truncate text-[0.78rem] text-faint">
-                    {service.stat.label}
-                  </p>
+                <div className="relative aspect-[3/2] overflow-hidden bg-surface-3" data-reveal-image>
+                  <Image
+                    src={service.image}
+                    alt={service.title}
+                    fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    className="object-cover transition-transform duration-[900ms] ease-out-expo group-hover:scale-[1.06]"
+                  />
+
+                  {/* Scrim under the number, not across the whole photo. */}
+                  <span
+                    aria-hidden="true"
+                    className="absolute inset-0 bg-gradient-to-t from-ink-950/85 via-ink-950/20 to-transparent"
+                  />
+
+                  <span className="absolute inset-x-5 bottom-4">
+                    <span className="block font-display text-[1.6rem] font-extrabold leading-none text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)]">
+                      {service.stat.value}
+                    </span>
+                    <span className="mt-1.5 block text-[0.78rem] leading-snug text-white/75">
+                      {service.stat.label}
+                    </span>
+                  </span>
                 </div>
-              </div>
+
+                <div className="flex items-center justify-between gap-3 px-5 py-3.5">
+                  <span className="font-display text-[0.9rem] font-bold text-ink-900 transition-colors duration-300 group-hover:text-brand-700">
+                    {service.shortTitle}
+                  </span>
+                  <ArrowIcon className="h-4 w-4 shrink-0 text-brand-500 transition-transform duration-300 group-hover:translate-x-1" />
+                </div>
+              </Link>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* ---------------- Timeline ---------------- */}
-      <section className="section section-tinted relative overflow-hidden border-t border-line bg-surface-2">
-        <div className="aurora opacity-40" />
-
-        <div className="container-x relative z-10">
-          <SectionTitle
-            eyebrow="Milestones"
-            title="How we got"
-            highlight="from one hoarding to here"
-          />
-
-          <ol className="relative mt-12 space-y-4" data-reveal-child>
-            {timeline.map((item) => (
-              <li
-                key={item.year}
-                className="glass glass-hover group flex flex-col gap-3 rounded-2xl p-6 sm:flex-row sm:items-center sm:gap-8 sm:p-7"
-              >
-                <span className="font-display text-3xl font-extrabold text-brand-600 transition-colors duration-500 group-hover:text-brand-600/80 sm:w-24 sm:shrink-0">
-                  {item.year}
-                </span>
-                <span className="flex-1">
-                  <span className="block font-display text-lg font-bold text-ink-900">
-                    {item.title}
-                  </span>
-                  <span className="mt-1.5 block text-[0.9rem] leading-relaxed text-muted">
-                    {item.detail}
-                  </span>
-                </span>
-              </li>
-            ))}
-          </ol>
         </div>
       </section>
 

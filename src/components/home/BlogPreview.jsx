@@ -33,13 +33,13 @@ export default function BlogPreview() {
           </a>
         </div>
 
-        <div className="mt-14 grid gap-5 lg:grid-cols-3" data-reveal-child>
+        <div className="mt-10 grid gap-5 lg:grid-cols-3" data-reveal-child>
           {posts.map((post) => (
             <BlogCard key={post.slug} post={post} />
           ))}
         </div>
 
-        <div className="mt-12 flex flex-wrap justify-center gap-3" data-reveal="up">
+        <div className="mt-9 flex flex-wrap justify-center gap-3" data-reveal="up">
           <Link href="/blog" className="btn btn-ghost group">
             All case studies
             <ArrowIcon className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />

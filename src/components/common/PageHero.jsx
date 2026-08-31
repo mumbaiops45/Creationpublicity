@@ -3,7 +3,12 @@ import { cn } from '@/lib/utils'
 
 /**
  * The banner at the top of every inner page: breadcrumb, eyebrow, title, lead.
- * Layered gradients drift on scroll to keep it from feeling static.
+ *
+ * Two layouts, picked by whether a `media` node is passed:
+ *   with media — copy left, picture right, so the band is filled edge to edge
+ *   without    — the copy is centred, so there is no lopsided empty half
+ * Left-aligned copy in a full-width band leaves a dead right-hand column, which
+ * is the one thing this must never do.
  */
 export default function PageHero({
   eyebrow,
@@ -11,24 +16,31 @@ export default function PageHero({
   highlight,
   lead,
   breadcrumbs = [],
+  media,
   children,
   className,
 }) {
+  const centred = !media
+
   return (
     <section
       className={cn(
-        'relative overflow-hidden pb-16 pt-32 sm:pb-20 sm:pt-40 md:pb-24',
+        'relative overflow-hidden pb-10 pt-26 sm:pb-12 sm:pt-30 md:pb-14',
         className,
       )}
     >
       <div className="absolute inset-0 z-0 bg-[radial-gradient(ellipse_100%_70%_at_50%_-20%,rgba(15,118,188,0.13),transparent_65%)]" />
-      <div className="grid-lines" />
       <div className="aurora opacity-60" />
 
       <div className="container-x relative z-10">
         {breadcrumbs.length > 0 && (
-          <nav aria-label="Breadcrumb" className="mb-7">
-            <ol className="flex flex-wrap items-center gap-2 text-[0.76rem] text-faint">
+          <nav aria-label="Breadcrumb" className="mb-5">
+            <ol
+              className={cn(
+                'flex flex-wrap items-center gap-2 text-[0.76rem] text-faint',
+                centred && 'justify-center',
+              )}
+            >
               <li>
                 <Link href="/" className="transition-colors hover:text-brand-700">
                   Home
@@ -54,34 +66,49 @@ export default function PageHero({
           </nav>
         )}
 
-        <div className="max-w-3xl">
-          {eyebrow && (
-            <p className="eyebrow mb-5" data-reveal="fade">
-              {eyebrow}
-            </p>
+        <div
+          className={cn(
+            !centred && 'grid gap-10 lg:grid-cols-[1fr_0.85fr] lg:items-center lg:gap-14',
           )}
+        >
+          <div className={cn('max-w-3xl', centred && 'mx-auto text-center')}>
+            {eyebrow && (
+              <p className="eyebrow mb-4" data-reveal="fade">
+                {eyebrow}
+              </p>
+            )}
 
-          <h1
-            className="font-display text-[2.2rem] font-extrabold leading-[1.05] tracking-[-0.03em] sm:text-5xl lg:text-6xl"
-            data-reveal="up"
-          >
-            {title}
-            {highlight && <span className="gradient-text"> {highlight}</span>}
-          </h1>
-
-          {lead && (
-            <p
-              className="mt-6 max-w-2xl text-base leading-relaxed text-body sm:text-lg"
+            <h1
+              className="font-display text-[2.2rem] font-extrabold leading-[1.05] tracking-[-0.03em] sm:text-5xl lg:text-[3.4rem]"
               data-reveal="up"
-              data-reveal-delay="0.1"
             >
-              {lead}
-            </p>
-          )}
+              {title}
+              {highlight && <span className="gradient-text"> {highlight}</span>}
+            </h1>
 
-          {children && (
-            <div data-reveal="up" data-reveal-delay="0.2">
-              {children}
+            {lead && (
+              <p
+                className={cn(
+                  'mt-5 max-w-2xl text-base leading-relaxed text-body sm:text-lg',
+                  centred && 'mx-auto',
+                )}
+                data-reveal="up"
+                data-reveal-delay="0.1"
+              >
+                {lead}
+              </p>
+            )}
+
+            {children && (
+              <div data-reveal="up" data-reveal-delay="0.2">
+                {children}
+              </div>
+            )}
+          </div>
+
+          {media && (
+            <div className="relative" data-reveal="right">
+              {media}
             </div>
           )}
         </div>

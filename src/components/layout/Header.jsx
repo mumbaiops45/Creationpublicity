@@ -7,14 +7,9 @@ import { usePathname } from 'next/navigation'
 import { site, mainNav } from '@/data/site'
 import { services } from '@/data/services'
 import { cn } from '@/lib/utils'
-import {
-  InstagramIcon,
-  LinkedInIcon,
-  MenuIcon,
-  CloseIcon,
-  ArrowIcon,
-  ServiceIcon,
-} from '@/components/common/Icons'
+import { MenuIcon, CloseIcon, ArrowIcon, ServiceIcon } from '@/components/common/Icons'
+
+const headerNav = mainNav.filter((item) => item.href !== '/contact')
 
 export default function Header() {
   const pathname = usePathname()
@@ -97,7 +92,7 @@ export default function Header() {
           overHero && 'bg-transparent',
         )}
       >
-        <div className="container-x flex items-center justify-between gap-4">
+        <div className="flex w-full items-center gap-4 px-6 lg:px-8">
           {/* ---------------- Logo ---------------- */}
           {/*
             The supplied logo is a horizontal lockup that already contains the
@@ -114,15 +109,15 @@ export default function Header() {
               priority
               className={cn(
                 'w-auto object-contain transition-all duration-500',
-                scrolled ? 'h-11' : 'h-14',
+                scrolled ? 'h-12' : 'h-16',
                 overHero && 'drop-shadow-[0_2px_12px_rgba(0,0,0,0.45)]',
               )}
             />
           </Link>
 
           {/* ---------------- Desktop nav ---------------- */}
-          <nav className="hidden items-center gap-1 lg:flex" aria-label="Main">
-            {mainNav.map((item) =>
+          <nav className="ml-auto hidden items-center gap-1 lg:flex" aria-label="Main">
+            {headerNav.map((item) =>
               item.href === '/services' ? (
                 <div
                   key={item.href}
@@ -229,38 +224,7 @@ export default function Header() {
           </nav>
 
           {/* ---------------- Right side ---------------- */}
-          <div className="flex items-center gap-2">
-            <div className="hidden items-center gap-1 md:flex">
-              <a
-                href={site.socials.instagram}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Creation Publicity on Instagram"
-                className={cn(
-                  'rounded-full p-2 transition-all duration-300',
-                  overHero
-                    ? 'text-white/75 hover:bg-white/15 hover:text-white'
-                    : 'text-muted hover:bg-brand-50 hover:text-brand-700',
-                )}
-              >
-                <InstagramIcon className="h-[1.15rem] w-[1.15rem]" />
-              </a>
-              <a
-                href={site.socials.linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Creation Publicity on LinkedIn"
-                className={cn(
-                  'rounded-full p-2 transition-all duration-300',
-                  overHero
-                    ? 'text-white/75 hover:bg-white/15 hover:text-white'
-                    : 'text-muted hover:bg-brand-50 hover:text-brand-700',
-                )}
-              >
-                <LinkedInIcon className="h-[1.15rem] w-[1.15rem]" />
-              </a>
-            </div>
-
+          <div className="flex items-center gap-2 lg:ml-3">
             <Link
               href="/contact"
               className="btn btn-primary group hidden px-5 py-2.5 text-[0.8rem] sm:inline-flex"
@@ -310,7 +274,7 @@ export default function Header() {
             mobileOpen ? 'translate-x-0' : 'translate-x-full',
           )}
         >
-          {mainNav.map((item) => (
+          {headerNav.map((item) => (
             <Link
               key={item.href}
               href={item.href}
@@ -349,35 +313,6 @@ export default function Header() {
             Enquire Now
           </Link>
 
-          <div className="mt-6 flex items-center gap-3">
-            <a
-              href={site.socials.instagram}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Instagram"
-              tabIndex={mobileOpen ? 0 : -1}
-              className="rounded-full border border-brand-200 p-2.5 text-brand-600"
-            >
-              <InstagramIcon className="h-4 w-4" />
-            </a>
-            <a
-              href={site.socials.linkedin}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="LinkedIn"
-              tabIndex={mobileOpen ? 0 : -1}
-              className="rounded-full border border-brand-200 p-2.5 text-brand-600"
-            >
-              <LinkedInIcon className="h-4 w-4" />
-            </a>
-            <a
-              href={`tel:${site.phoneHref}`}
-              tabIndex={mobileOpen ? 0 : -1}
-              className="text-sm font-medium text-body"
-            >
-              {site.phone}
-            </a>
-          </div>
         </nav>
       </div>
     </>

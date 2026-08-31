@@ -9,9 +9,8 @@ export const metadata = {
 
 export default function NotFound() {
   return (
-    <section className="relative flex min-h-[80vh] items-center overflow-hidden py-32">
+    <section className="relative flex min-h-[70vh] items-center overflow-hidden py-24">
       <div className="absolute inset-0 z-0 bg-[radial-gradient(ellipse_90%_60%_at_50%_0%,rgba(15,118,188,0.12),transparent_65%)]" />
-      <div className="grid-lines" />
       <div className="aurora opacity-60" />
 
       <div className="container-x relative z-10 text-center" data-reveal="up">
@@ -35,7 +34,7 @@ export default function NotFound() {
           </Link>
         </div>
 
-        <div className="mx-auto mt-14 grid max-w-3xl gap-3 sm:grid-cols-3" data-reveal-child>
+        <div className="mx-auto mt-10 grid max-w-3xl gap-3 sm:grid-cols-3" data-reveal-child>
           {services.slice(0, 3).map((service) => (
             <Link
               key={service.slug}

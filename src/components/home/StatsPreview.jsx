@@ -9,13 +9,12 @@ import { ArrowIcon } from '@/components/common/Icons'
  */
 export default function StatsPreview() {
   return (
-    <section className="relative overflow-hidden bg-ink-950 py-20 md:py-24">
+    <section className="relative overflow-hidden bg-ink-950 py-14 md:py-18">
       {/* Brand wash + faint grid, the same treatment as the hero. */}
       <div
         aria-hidden="true"
         className="absolute inset-0 bg-[radial-gradient(ellipse_90%_80%_at_50%_0%,#12436a,transparent_70%)]"
       />
-      <div className="grid-lines opacity-30" />
 
       <div className="container-x relative z-10">
         <div className="mx-auto max-w-2xl text-center" data-reveal="up">
@@ -28,7 +27,7 @@ export default function StatsPreview() {
           </h2>
         </div>
 
-        <div className="mt-14 grid grid-cols-2 gap-x-6 gap-y-12 lg:grid-cols-4" data-reveal-child>
+        <div className="mt-10 grid grid-cols-2 gap-x-6 gap-y-12 lg:grid-cols-4" data-reveal-child>
           {headlineStats.map((stat, i) => (
             <div
               key={stat.label}
@@ -54,7 +53,7 @@ export default function StatsPreview() {
           ))}
         </div>
 
-        <div className="mt-14 flex justify-center" data-reveal="up">
+        <div className="mt-10 flex justify-center" data-reveal="up">
           <Link href="/statistics" className="btn btn-on-dark group">
             See the full profile
             <ArrowIcon className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />

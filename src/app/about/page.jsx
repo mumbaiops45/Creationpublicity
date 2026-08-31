@@ -1,14 +1,13 @@
+import Link from 'next/link'
 import Image from 'next/image'
 import { story, values, timeline, team } from '@/data/team'
 import { site } from '@/data/site'
-import { headlineStats } from '@/data/stats'
 import { initials } from '@/lib/utils'
 import PageHero from '@/components/common/PageHero'
 import SectionTitle from '@/components/common/SectionTitle'
-import Counter from '@/components/common/Counter'
 import ProcessSection from '@/components/home/ProcessSection'
 import CtaBanner from '@/components/home/CtaBanner'
-import { CheckIcon, LinkedInIcon } from '@/components/common/Icons'
+import { CheckIcon, LinkedInIcon, ArrowIcon } from '@/components/common/Icons'
 
 export const metadata = {
   title: 'About Us — Our Story & Team',
@@ -30,7 +29,7 @@ export default function AboutPage() {
 
       {/* ---------------- Story ---------------- */}
       <section className="section pt-0">
-        <div className="container-x grid gap-14 lg:grid-cols-[1.15fr_0.85fr] lg:gap-20">
+        <div className="container-x grid gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:gap-16">
           <div className="space-y-6" data-reveal="up">
             {story.map((paragraph, index) => (
               <p
@@ -46,36 +45,35 @@ export default function AboutPage() {
             ))}
           </div>
 
-          {/* Depth panel — drifts against the copy as you scroll. */}
-          <aside className="relative" data-reveal="right">
+          {/* The studio itself, beside the story rather than squeezed into a
+              narrow column above the numbers. */}
+          <div className="relative" data-reveal="right">
             <div
-              data-parallax="0.08"
-              className="glass relative overflow-hidden rounded-2xl p-8"
+              className="relative aspect-[3/2] overflow-hidden rounded-[1.5rem] border border-line shadow-[0_26px_58px_-30px_rgba(11,44,71,0.55)]"
+              data-reveal-image
             >
-              <span className="pointer-events-none absolute -right-12 -top-12 h-40 w-40 rounded-full bg-brand-50 blur-3xl" />
-
-              <p className="eyebrow mb-6">At a glance</p>
-
-              <dl className="space-y-6">
-                {headlineStats.map((stat) => (
-                  <div
-                    key={stat.label}
-                    className="flex items-baseline justify-between gap-4 border-b border-line pb-5 last:border-0 last:pb-0"
-                  >
-                    <dt className="text-[0.88rem] text-muted">{stat.label}</dt>
-                    <dd>
-                      <Counter
-                        value={stat.value}
-                        prefix={stat.prefix}
-                        suffix={stat.suffix}
-                        className="font-display text-2xl font-extrabold text-brand-600"
-                      />
-                    </dd>
-                  </div>
-                ))}
-              </dl>
+              <Image
+                src="/images/about/about.png"
+                alt="The Creation Publicity team reviewing campaign artwork and media plans"
+                fill
+                sizes="(min-width: 1024px) 46vw, 100vw"
+                className="object-cover"
+              />
             </div>
-          </aside>
+          </div>
+        </div>
+
+        {/* The four headline numbers live on /statistics — repeating them
+            here would say the same thing twice in two places. */}
+        <div className="container-x mt-9">
+          <Link
+            href="/statistics"
+            className="group inline-flex items-center gap-2 text-sm font-semibold text-brand-600 transition-colors hover:text-brand-700"
+            data-reveal="up"
+          >
+            Sixteen years in numbers — see the full profile
+            <ArrowIcon className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+          </Link>
         </div>
       </section>
 
@@ -90,7 +88,7 @@ export default function AboutPage() {
             highlight="bend for a booking"
           />
 
-          <div className="mt-12 grid gap-5 sm:grid-cols-2" data-reveal-child>
+          <div className="mt-10 grid gap-5 sm:grid-cols-2" data-reveal-child>
             {values.map((value) => (
               <div key={value.title} className="glass glass-hover rounded-2xl p-7">
                 <span className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-brand-200 bg-brand-50 text-brand-600">
@@ -110,7 +108,6 @@ export default function AboutPage() {
 
       {/* ---------------- Timeline ---------------- */}
       <section className="section relative overflow-hidden">
-        <div className="grid-lines opacity-50" />
 
         <div className="container-x relative z-10">
           <SectionTitle
@@ -120,7 +117,7 @@ export default function AboutPage() {
             highlight="six turning points"
           />
 
-          <ol className="relative mx-auto mt-14 max-w-3xl" data-reveal-child>
+          <ol className="relative mx-auto mt-10 max-w-3xl" data-reveal-child>
             {timeline.map((item, index) => (
               <li key={item.year} className="relative flex gap-6 pb-10 last:pb-0">
                 {/* Connector line between markers. */}
@@ -164,7 +161,7 @@ export default function AboutPage() {
             lead="No layers of account management between you and the person doing the work."
           />
 
-          <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-4" data-reveal-child>
+          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4" data-reveal-child>
             {team.map((member, index) => (
               <div key={index} className="glass glass-hover group rounded-2xl p-6 text-center">
                 <span className="mx-auto mb-5 flex h-20 w-20 items-center justify-center overflow-hidden rounded-full border border-brand-200 bg-brand-50">

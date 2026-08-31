@@ -7,7 +7,6 @@ import { ArrowIcon } from '@/components/common/Icons'
 export default function ServicesPreview() {
   return (
     <section className="section relative overflow-hidden" id="services">
-      <div className="grid-lines opacity-60" />
 
       <div className="container-x relative z-10">
         <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
@@ -29,7 +28,7 @@ export default function ServicesPreview() {
         </div>
 
         <div
-          className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3"
+          className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3"
           data-reveal-child
         >
           {services.map((service, index) => (

@@ -42,7 +42,7 @@ export default function TestimonialsPage() {
       </section>
 
       {/* Retention band — the number behind the quotes. */}
-      <section className="relative overflow-hidden border-y border-line bg-surface-2 py-16">
+      <section className="relative overflow-hidden border-y border-line bg-surface-2 py-12">
         <div className="aurora opacity-40" />
 
         <div className="container-x relative z-10">
@@ -60,7 +60,7 @@ export default function TestimonialsPage() {
             ))}
           </div>
 
-          <div className="mt-12 flex justify-center" data-reveal="up">
+          <div className="mt-9 flex justify-center" data-reveal="up">
             <Link href="/clients" className="btn btn-ghost group">
               See the client list
               <ArrowIcon className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />

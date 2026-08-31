@@ -1,4 +1,4 @@
-import { Sora, Inter } from 'next/font/google'
+import { Plus_Jakarta_Sans } from 'next/font/google'
 import './globals.css'
 
 import { site } from '@/data/site'
@@ -9,16 +9,12 @@ import FloatingActions from '@/components/layout/FloatingActions'
 import SmoothScroll from '@/components/layout/SmoothScroll'
 import ScrollAnimations from '@/components/common/ScrollAnimations'
 
-const sora = Sora({
+// One family for the whole site — headings and body alike. Loaded through
+// next/font so it is self-hosted at build time: no render-blocking request to
+// fonts.googleapis.com, and no layout shift when it swaps in.
+const jakarta = Plus_Jakarta_Sans({
   subsets: ['latin'],
-  weight: ['400', '600', '700', '800'],
-  variable: '--font-sora',
-  display: 'swap',
-})
-
-const inter = Inter({
-  subsets: ['latin'],
-  variable: '--font-inter',
+  variable: '--font-jakarta',
   display: 'swap',
 })
 
@@ -138,7 +134,7 @@ function StructuredData() {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en-IN" className={`${sora.variable} ${inter.variable}`}>
+    <html lang="en-IN" className={jakarta.variable}>
       <body className="antialiased">
         {/*
           Marks the document as JavaScript-enabled before anything paints, so

@@ -49,7 +49,7 @@ export default function ClientsPreview() {
         />
       </div>
 
-      <div className="relative mt-14 space-y-4">
+      <div className="relative mt-10 space-y-4">
         {/* Fade the marquee out at both edges instead of cutting it hard. */}
         <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-white to-transparent sm:w-32" />
         <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-white to-transparent sm:w-32" />
@@ -58,7 +58,7 @@ export default function ClientsPreview() {
         <MarqueeRow items={clients.slice(half)} duration="46s" reverse />
       </div>
 
-      <div className="container-x mt-12 flex justify-center" data-reveal="up">
+      <div className="container-x mt-9 flex justify-center" data-reveal="up">
         <Link href="/clients" className="btn btn-ghost group">
           View all clients &amp; testimonials
           <ArrowIcon className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />

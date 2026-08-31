@@ -121,7 +121,7 @@ export default async function BlogPostPage({ params }) {
             <BlogContent blocks={post.body} />
 
             {post.linkedinUrl && (
-              <div className="glass mt-12 flex flex-col gap-4 rounded-2xl p-6 sm:flex-row sm:items-center sm:justify-between">
+              <div className="glass mt-9 flex flex-col gap-4 rounded-2xl p-6 sm:flex-row sm:items-center sm:justify-between">
                 <div>
                   <p className="font-display text-base font-bold text-ink-900">
                     Discussing this on LinkedIn

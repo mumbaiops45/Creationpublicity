@@ -9,10 +9,10 @@ export default function CtaBanner({
   lead = 'Send us the brief — or just the problem — and we will come back with a media plan, a timeline and a price. No obligation, no retainer to start.',
 }) {
   return (
-    <section className="relative overflow-hidden py-20 md:py-28">
+    <section className="relative overflow-hidden py-14 md:py-20">
       <div className="container-x relative z-10">
         <div
-          className="glass relative overflow-hidden rounded-[1.75rem] px-7 py-14 text-center sm:px-14 md:py-20"
+          className="glass relative overflow-hidden rounded-[1.75rem] px-7 py-12 text-center sm:px-14 md:py-16"
           data-reveal="scale"
         >
           {/* Depth wash behind the panel content. */}

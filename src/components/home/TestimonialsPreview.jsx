@@ -46,7 +46,6 @@ export function TestimonialCard({ testimonial, featured = false }) {
 export default function TestimonialsPreview() {
   return (
     <section className="section relative overflow-hidden">
-      <div className="grid-lines opacity-50" />
 
       <div className="container-x relative z-10">
         <SectionTitle
@@ -56,13 +55,13 @@ export default function TestimonialsPreview() {
           highlight="the campaign is over"
         />
 
-        <div className="mt-14 grid gap-5 lg:grid-cols-3" data-reveal-child>
+        <div className="mt-10 grid gap-5 lg:grid-cols-3" data-reveal-child>
           {testimonials.slice(0, 3).map((testimonial) => (
             <TestimonialCard key={testimonial.name} testimonial={testimonial} />
           ))}
         </div>
 
-        <div className="mt-12 flex justify-center" data-reveal="up">
+        <div className="mt-9 flex justify-center" data-reveal="up">
           <Link href="/testimonials" className="btn btn-ghost group">
             Read more testimonials
             <ArrowIcon className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />

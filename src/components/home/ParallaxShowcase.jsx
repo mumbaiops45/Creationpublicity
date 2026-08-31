@@ -9,8 +9,9 @@ import SectionTitle from '@/components/common/SectionTitle'
  */
 export default function ParallaxShowcase() {
   return (
-    <section className="section section-tinted relative overflow-hidden border-y border-line bg-surface-2">
-      <div className="aurora opacity-50" />
+    <section className="section relative overflow-hidden border-y border-brand-100 bg-brand-50">
+      <div className="aurora opacity-70" />
+      <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-brand-400 via-brand-600 to-brand-400" />
 
       <div className="container-x relative z-10">
         <SectionTitle
@@ -22,21 +23,25 @@ export default function ParallaxShowcase() {
         />
 
         <div
-          className="mt-16 grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4"
+          className="mt-10 grid overflow-hidden rounded-3xl border border-brand-100 bg-white shadow-[0_24px_60px_-32px_rgba(15,118,188,0.45)] sm:grid-cols-2 lg:grid-cols-4"
           data-reveal-child
         >
           {values.map((value, index) => (
-            <div key={value.title} data-parallax={index % 2 === 0 ? '0.05' : '-0.04'}>
-              <span className="font-display text-4xl font-extrabold leading-none text-brand-200">
+            <div
+              key={value.title}
+              data-parallax={index % 2 === 0 ? '0.05' : '-0.04'}
+              className="group relative min-h-64 border-b border-brand-100 p-7 transition-colors duration-300 hover:bg-brand-50 sm:even:border-l lg:min-h-72 lg:border-b-0 lg:border-l lg:first:border-l-0"
+            >
+              <span className="font-display text-sm font-extrabold tracking-[0.18em] text-brand-500">
                 {String(index + 1).padStart(2, '0')}
               </span>
 
-              <span className="mt-4 block h-px w-10 bg-brand-400" />
+              <span className="mt-7 block h-px w-11 bg-brand-400 transition-all duration-300 group-hover:w-20" />
 
-              <h3 className="mt-5 font-display text-lg font-bold text-ink-900">
+              <h3 className="mt-7 font-display text-xl font-bold text-ink-900">
                 {value.title}
               </h3>
-              <p className="mt-2.5 text-[0.9rem] leading-relaxed text-muted">
+              <p className="mt-3 text-[0.92rem] leading-relaxed text-muted">
                 {value.detail}
               </p>
             </div>

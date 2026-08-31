@@ -20,7 +20,7 @@ export default function Footer() {
     <footer className="footer-arc relative overflow-hidden bg-brand-900 text-brand-100">
       <div className="aurora opacity-20" />
 
-      <div className="container-x relative z-10 pb-10 pt-20 md:pt-28">
+      <div className="container-x relative z-10 pb-8 pt-14 md:pt-18">
         <div className="grid gap-12 lg:grid-cols-[1.15fr_1fr_1fr_1.05fr]">
           {/* ---------------- Brand ---------------- */}
           <div>
@@ -167,7 +167,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="divider-glow mt-14" />
+        <div className="divider-glow mt-10" />
 
         <div className="flex flex-col items-center justify-between gap-4 pt-6 text-center sm:flex-row sm:text-left">
           <p className="text-xs text-brand-200/70">

@@ -63,7 +63,7 @@ export default function ProcessSection() {
 
         <ol
           data-process="list"
-          className="relative mt-16 grid gap-9 md:grid-cols-5 md:gap-6"
+          className="relative mt-10 grid gap-9 md:grid-cols-5 md:gap-6"
         >
           {/* Connecting line — horizontal on desktop, vertical on mobile. */}
           <span
