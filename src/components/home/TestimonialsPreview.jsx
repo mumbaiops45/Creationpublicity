@@ -11,13 +11,19 @@ export function TestimonialCard({ testimonial, featured = false }) {
         featured ? 'sm:p-9' : ''
       }`}
     >
-      <QuoteIcon className="absolute right-5 top-5 h-10 w-10 text-brand-800" />
-
       <blockquote
-        className={`relative flex-1 leading-relaxed text-body ${
+        className={`relative flow-root flex-1 leading-relaxed text-body ${
           featured ? 'text-lg sm:text-xl' : 'text-[0.95rem]'
         }`}
       >
+        {/*
+          Floated rather than absolutely positioned. Absolute took the mark out
+          of flow, so the first two lines of every quote ran underneath it —
+          floating makes the text wrap around it instead. flow-root on the
+          blockquote contains the float, so a one-line quote cannot let it
+          spill down over the attribution.
+        */}
+        <QuoteIcon className="float-right ml-4 h-10 w-10 text-brand-800" />
         “{testimonial.quote}”
       </blockquote>
 
