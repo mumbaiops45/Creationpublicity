@@ -20,7 +20,10 @@ export default function BlogCard({ post, featured = false }) {
         href={`/blog/${post.slug}`}
         className={cn(
           'relative block shrink-0 overflow-hidden',
-          featured ? 'h-56 lg:h-auto lg:w-[45%]' : 'h-44',
+          // 3:2 matches the source photography exactly, so nothing is cropped.
+          // A fixed height here made the box far wider than 3:2 and cut a third
+          // off the top and bottom of every cover.
+          featured ? 'aspect-[16/10] lg:aspect-auto lg:h-auto lg:w-[45%]' : 'aspect-[3/2]',
         )}
         data-reveal-image
         aria-hidden="true"
