@@ -232,7 +232,14 @@ export default function Header() {
           </nav>
 
           {/* ---------------- Right side ---------------- */}
-          <div className="flex items-center gap-2 xl:ml-3">
+          {/*
+            ml-auto lives here, not only on the nav: below xl the nav is
+            display:none, and an auto margin on a hidden element pushes
+            nothing — which left the menu button sitting against the logo.
+            From xl up, xl:ml-3 overrides it and the nav's own ml-auto does
+            the pushing instead.
+          */}
+          <div className="ml-auto flex items-center gap-2 xl:ml-3">
             {/* Instagram + LinkedIn, per the brief. */}
             <div className="hidden items-center gap-1 md:flex">
               <a
@@ -278,10 +285,13 @@ export default function Header() {
               aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
               aria-expanded={mobileOpen}
               className={cn(
-                'rounded-full border p-3 transition-colors xl:hidden',
+                // Bare mark, no plate — the ring competed with the logo at
+                // this size. p-3 keeps the tap area at 44px even though the
+                // glyph is only 20px.
+                'rounded-full p-3 transition-colors xl:hidden',
                 overHero
-                  ? 'border-white/35 text-white hover:border-white hover:bg-white/10'
-                  : 'border-brand-200 text-ink-800 hover:border-brand-400 hover:text-ink-900',
+                  ? 'text-white hover:bg-white/10'
+                  : 'text-ink-800 hover:bg-brand-50 hover:text-brand-700',
               )}
             >
               {mobileOpen ? <CloseIcon className="h-5 w-5" /> : <MenuIcon className="h-5 w-5" />}
