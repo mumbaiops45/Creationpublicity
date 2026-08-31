@@ -20,7 +20,12 @@ export default function Footer() {
     <footer className="footer-arc relative overflow-hidden bg-brand-900 text-brand-100">
       <div className="aurora opacity-20" />
 
-      <div className="container-x relative z-10 pb-8 pt-14 md:pt-18">
+      {/* pb-50 on mobile clears the fixed button stack, which reaches 192px up
+          from bottom-5 once the back-to-top button joins the WhatsApp and call
+          buttons — without it they sit on top of the legal row and the build
+          credit. Above sm the footer is wide enough that the centred text
+          never reaches them. */}
+      <div className="container-x relative z-10 pb-50 pt-14 sm:pb-8 md:pt-18">
         <div className="grid gap-12 lg:grid-cols-[1.15fr_1fr_1fr_1.05fr]">
           {/* ---------------- Brand ---------------- */}
           <div>

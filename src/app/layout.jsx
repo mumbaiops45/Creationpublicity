@@ -1,6 +1,7 @@
 import { Plus_Jakarta_Sans } from 'next/font/google'
 import './globals.css'
 
+
 import { site } from '@/data/site'
 import { services } from '@/data/services'
 import Header from '@/components/layout/Header'
@@ -11,7 +12,9 @@ import ScrollAnimations from '@/components/common/ScrollAnimations'
 
 // One family for the whole site — headings and body alike. Loaded through
 // next/font so it is self-hosted at build time: no render-blocking request to
-// fonts.googleapis.com, and no layout shift when it swaps in.
+// fonts.googleapis.com, no second hop to fonts.gstatic.com, and no layout
+// shift when it swaps in. Plus Jakarta Sans is a variable font, so this one
+// declaration covers every weight the site uses (400-800).
 const jakarta = Plus_Jakarta_Sans({
   subsets: ['latin'],
   variable: '--font-jakarta',
@@ -132,9 +135,16 @@ function StructuredData() {
   )
 }
 
+/*
+  suppressHydrationWarning on <html>: the inline script below adds `js-ready`
+  to the document element before React hydrates, so the server markup and the
+  live DOM legitimately differ on that one element. Without it React reports a
+  hydration mismatch on every page load. It suppresses only that element's own
+  attributes — children are still checked normally.
+*/
 export default function RootLayout({ children }) {
   return (
-    <html lang="en-IN" className={jakarta.variable}>
+    <html lang="en-IN" className={jakarta.variable} suppressHydrationWarning>
       <body className="antialiased">
         {/*
           Marks the document as JavaScript-enabled before anything paints, so

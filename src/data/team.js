@@ -45,34 +45,51 @@ export const timeline = [
   { year: '2026', title: '4,800+ campaigns', detail: 'Serving 620+ brands across 140+ cities, still independently owned.' },
 ]
 
+/*
+ * ⚠️  TEMPORARY PLACEHOLDER TEAM — MUST BE REPLACED BEFORE LAUNCH  ⚠️
+ *
+ * These are NOT real people. The names are deliberately written as labels
+ * ("Founder Name") rather than invented human names, so this can never be
+ * mistaken for the real team if it reaches a live site. The bios describe the
+ * ROLE, not any individual's history.
+ *
+ * To make it real: replace `name` and `bio` with the actual person, drop a
+ * square headshot (~400x400) into /public/images/team/ and set `photo`, add
+ * their `linkedin` if they want it, and delete the `placeholder: true` flag.
+ * Add or remove entries freely — the grid adapts to any number.
+ */
 export const team = [
   {
-    name: 'Team Member Name',
+    name: 'Founder Name',
     role: 'Founder & Managing Director',
-    bio: 'Placeholder — replace with a short two-line biography.',
+    bio: 'Owns client relationships and the standard the agency is held to — including the rule that nothing is invoiced without photographic proof.',
     photo: null,
     linkedin: null,
+    placeholder: true,
   },
   {
-    name: 'Team Member Name',
+    name: 'Media Director Name',
     role: 'Director — Media Planning',
-    bio: 'Placeholder — replace with a short two-line biography.',
+    bio: 'Plans and negotiates across outdoor, transit, press and cinema, and runs the site audit that decides which locations we will recommend.',
     photo: null,
     linkedin: null,
+    placeholder: true,
   },
   {
-    name: 'Team Member Name',
+    name: 'Creative Head Name',
     role: 'Head of Creative',
-    bio: 'Placeholder — replace with a short two-line biography.',
+    bio: 'Leads concept, copy and artwork in-house, from a single hoarding through to a full multi-city campaign identity.',
     photo: null,
     linkedin: null,
+    placeholder: true,
   },
   {
-    name: 'Team Member Name',
+    name: 'Operations Head Name',
     role: 'Head of Operations',
-    bio: 'Placeholder — replace with a short two-line biography.',
+    bio: 'Runs printing, fabrication, mounting and the closing report, so campaigns go live on schedule and come back documented.',
     photo: null,
     linkedin: null,
+    placeholder: true,
   },
 ]
 

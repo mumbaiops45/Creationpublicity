@@ -17,6 +17,17 @@ export const metadata = {
 }
 
 export default function AboutPage() {
+  // src/data/team.js currently holds TEMPORARY placeholder people, kept on
+  // purpose so the client can see this section's layout. They are flagged with
+  // `placeholder: true` there and must be replaced before launch.
+  //
+  // Filtering on that flag — not just on a missing name — is what keeps
+  // "Founder Name" and friends off the live site: every placeholder entry has
+  // a name, so a name check alone would let all four through. The section is
+  // wrapped in a length guard below, so it simply hides itself until real
+  // people are added here.
+  const realTeam = team.filter((member) => member.name && !member.placeholder)
+
   return (
     <>
       <PageHero
@@ -149,61 +160,68 @@ export default function AboutPage() {
       <ProcessSection />
 
       {/* ---------------- Team ---------------- */}
-      <section className="section section-tinted relative overflow-hidden border-t border-line bg-surface-2">
-        <div className="aurora opacity-40" />
+      {realTeam.length > 0 && (
+        <section className="section section-tinted relative overflow-hidden border-t border-line bg-surface-2">
+          <div className="aurora opacity-40" />
 
-        <div className="container-x relative z-10">
-          <SectionTitle
-            align="center"
-            eyebrow="The Team"
-            title="The people who will"
-            highlight="actually run your campaign"
-            lead="No layers of account management between you and the person doing the work."
-          />
+          <div className="container-x relative z-10">
+            <SectionTitle
+              align="center"
+              eyebrow="The Team"
+              title="The people who will"
+              highlight="actually run your campaign"
+              lead="No layers of account management between you and the person doing the work."
+            />
 
-          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4" data-reveal-child>
-            {team.map((member, index) => (
-              <div key={index} className="glass glass-hover group rounded-2xl p-6 text-center">
-                <span className="mx-auto mb-5 flex h-20 w-20 items-center justify-center overflow-hidden rounded-full border border-brand-200 bg-brand-50">
-                  {member.photo ? (
-                    <Image
-                      src={member.photo}
-                      alt={member.name}
-                      width={160}
-                      height={160}
-                      className="h-full w-full object-cover"
-                    />
-                  ) : (
-                    <span className="font-display text-lg font-bold text-brand-600">
-                      {initials(member.name)}
-                    </span>
+            <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4" data-reveal-child>
+              {realTeam.map((member, index) => (
+                <div key={index} className="glass glass-hover group flex h-full flex-col rounded-2xl p-6 text-center">
+                  <span className="mx-auto mb-5 flex h-20 w-20 items-center justify-center overflow-hidden rounded-full border border-brand-200 bg-brand-50">
+                    {member.photo ? (
+                      <Image
+                        src={member.photo}
+                        alt={member.name}
+                        width={160}
+                        height={160}
+                        className="h-full w-full object-cover"
+                      />
+                    ) : (
+                      <span className="font-display text-lg font-bold text-brand-600">
+                        {initials(member.name)}
+                      </span>
+                    )}
+                  </span>
+
+                  <h3 className="font-display text-base font-bold text-ink-900">{member.name}</h3>
+                  <p className="mt-1 text-[0.78rem] font-semibold uppercase tracking-wider text-brand-600">
+                    {member.role}
+                  </p>
+                  <p className="mt-3 text-[0.85rem] leading-relaxed text-muted">
+                    {member.bio}
+                  </p>
+
+                  {member.linkedin && (
+                    // mt-auto on the wrapper pins the button to the bottom of
+                    // every card, so the icons line up across the row however
+                    // long each bio runs; pt-4 keeps air above it either way.
+                    <div className="mt-auto pt-4">
+                      <a
+                        href={member.linkedin}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={`${member.name} on LinkedIn`}
+                        className="inline-flex rounded-full border border-brand-200 p-2 text-muted transition-colors hover:border-brand-400 hover:text-brand-700"
+                      >
+                        <LinkedInIcon className="h-4 w-4" />
+                      </a>
+                    </div>
                   )}
-                </span>
-
-                <h3 className="font-display text-base font-bold text-ink-900">{member.name}</h3>
-                <p className="mt-1 text-[0.78rem] font-semibold uppercase tracking-wider text-brand-600">
-                  {member.role}
-                </p>
-                <p className="mt-3 text-[0.85rem] leading-relaxed text-muted">
-                  {member.bio}
-                </p>
-
-                {member.linkedin && (
-                  <a
-                    href={member.linkedin}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={`${member.name} on LinkedIn`}
-                    className="mt-4 inline-flex rounded-full border border-brand-200 p-2 text-muted transition-colors hover:border-brand-400 hover:text-brand-700"
-                  >
-                    <LinkedInIcon className="h-4 w-4" />
-                  </a>
-                )}
-              </div>
-            ))}
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       <CtaBanner
         eyebrow="Work with us"

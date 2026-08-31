@@ -45,7 +45,10 @@
   --color-gold-600: #c9860c;
 
   /* One family site-wide. `--font-jakarta` is injected by next/font in
-     src/app/layout.jsx; the literal name is the fallback if that ever fails. */
+     src/app/layout.jsx, which self-hosts the file at build time. The literal
+     name and the system stack after it are the fallback if that ever fails —
+     without them the browser drops to a generic sans that is far narrower
+     than Jakarta, and every letterspaced heading reflows on load. */
   --font-display: var(--font-jakarta), 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif;
   --font-sans: var(--font-jakarta), 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif;
 
@@ -60,7 +63,6 @@
 
 @layer base {
   :root {
-    --header-height: 5rem;
     color-scheme: light;
   }
 
@@ -370,6 +372,14 @@
     }
   }
 
+  /* The header is fixed, so any anchor jump must stop short of it — that
+     includes the "Skip to content" link, which otherwise lands #main
+     underneath the bar. */
+  #enquiry,
+  #main {
+    scroll-margin-top: 7rem;
+  }
+
   .divider-glow {
     height: 1px;
     background: linear-gradient(90deg, transparent, var(--color-brand-300), transparent);
@@ -392,13 +402,22 @@
     border: 1px solid var(--color-line);
     background: var(--color-surface);
     padding: 0.8rem 1rem;
-    font-size: 0.95rem;
+    /* 16px on phones is deliberate: iOS Safari zooms the whole page in when a
+       focused input is smaller than that, and never zooms back out. The
+       design size returns from the sm breakpoint up. */
+    font-size: 1rem;
     color: var(--color-ink-900);
     transition:
       border-color 0.3s ease,
       box-shadow 0.3s ease,
       background-color 0.3s ease;
   }
+  @media (min-width: 640px) {
+    .field-input {
+      font-size: 0.95rem;
+    }
+  }
+
   .field-input::placeholder {
     color: var(--color-faint);
   }

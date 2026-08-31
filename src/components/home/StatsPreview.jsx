@@ -27,7 +27,7 @@ export default function StatsPreview() {
           </h2>
         </div>
 
-        <div className="mt-10 grid grid-cols-2 gap-x-6 gap-y-12 lg:grid-cols-4" data-reveal-child>
+        <div className="mt-10 grid grid-cols-2 gap-x-4 gap-y-10 sm:gap-x-6 sm:gap-y-12 lg:grid-cols-4" data-reveal-child>
           {headlineStats.map((stat, i) => (
             <div
               key={stat.label}
@@ -41,7 +41,7 @@ export default function StatsPreview() {
                 value={stat.value}
                 prefix={stat.prefix}
                 suffix={stat.suffix}
-                className="block font-display text-[2.6rem] font-extrabold leading-none tracking-tight text-white sm:text-5xl"
+                className="block font-display text-[2.1rem] font-extrabold leading-none tracking-tight text-white sm:text-5xl"
               />
               <p className="mt-3 font-display text-sm font-bold text-brand-300">
                 {stat.label}

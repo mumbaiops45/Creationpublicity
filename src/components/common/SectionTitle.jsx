@@ -23,8 +23,10 @@ export default function SectionTitle({
         className,
       )}
     >
+      {/* .eyebrow is inline-flex, so the parent's text-center already centres
+          it — no justify-* needed here. */}
       {eyebrow && (
-        <p className={cn('eyebrow mb-5', centred && 'justify-center')} data-reveal="fade">
+        <p className="eyebrow mb-5" data-reveal="fade">
           {eyebrow}
         </p>
       )}

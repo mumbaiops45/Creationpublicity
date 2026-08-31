@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import { services, getServiceBySlug, getServiceSlugs } from '@/data/services'
 import { site } from '@/data/site'
+import ServiceEnquiryForm from '@/components/services/ServiceEnquiryForm'
 import { ServiceIcon, CheckIcon, ArrowIcon } from '@/components/common/Icons'
 
 /** Pre-render all 12 service pages at build time. */
@@ -63,11 +64,11 @@ export default async function ServicePage({ params }) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
       />
 
-      <section className="relative overflow-hidden border-b border-line bg-surface-2 pb-12 pt-26 sm:pt-30 lg:pb-16">
+      <section className="relative overflow-hidden border-b border-line bg-surface-2 pb-12 pt-29 sm:pt-30 lg:pb-16">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_8%_18%,rgba(43,143,226,0.16),transparent_28%),radial-gradient(circle_at_88%_72%,rgba(15,118,188,0.1),transparent_32%)]" />
         <div className="container-x relative z-10">
-          <nav aria-label="Breadcrumb" className="mb-8">
-            <ol className="flex flex-wrap items-center gap-2 text-[0.78rem] text-faint">
+          <nav aria-label="Breadcrumb" className="mb-5">
+            <ol className="flex flex-wrap items-center gap-2 text-[0.76rem] text-faint">
               <li>
                 <Link href="/" className="transition-colors hover:text-brand-700">
                   Home
@@ -97,7 +98,7 @@ export default async function ServicePage({ params }) {
                 </span>
               </div>
 
-              <h1 className="mt-7 max-w-2xl font-display text-4xl font-extrabold leading-[1.04] tracking-[-0.04em] text-ink-900 sm:text-5xl lg:text-6xl">
+              <h1 className="mt-7 max-w-2xl font-display text-[2.2rem] font-extrabold leading-[1.05] tracking-[-0.03em] text-ink-900 sm:text-5xl lg:text-[3.4rem]">
                 {service.title}
               </h1>
               <p className="mt-6 max-w-2xl text-base leading-relaxed text-body sm:text-lg">
@@ -216,8 +217,8 @@ export default async function ServicePage({ params }) {
                 formats, availability and a practical rollout plan.
               </p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                <Link href="/contact" className="btn btn-light group">
-                  Talk to our team
+                <Link href="#enquiry" className="btn btn-light group">
+                  Send us your brief
                   <ArrowIcon className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
                 </Link>
                 <Link href="/services" className="btn btn-on-dark">
@@ -239,6 +240,21 @@ export default async function ServicePage({ params }) {
                 </li>
               ))}
             </ol>
+          </div>
+        </div>
+      </section>
+
+      {/* ---------------- Enquiry form ---------------- */}
+      {/* The brief asks for a simple enquiry form on every service page. The
+          form carries id="enquiry" itself, which is what the two buttons above
+          scroll to. Fields come from `formFields` on the service, so each page
+          asks the questions that actually matter for that medium. */}
+      <section className="relative overflow-hidden border-y border-line bg-surface-2 py-14 md:py-20">
+        <div className="aurora opacity-50" />
+
+        <div className="container-x relative z-10">
+          <div className="mx-auto max-w-3xl" data-reveal="up">
+            <ServiceEnquiryForm service={service} />
           </div>
         </div>
       </section>

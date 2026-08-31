@@ -163,6 +163,14 @@ export function ArrowIcon({ className = 'h-4 w-4' }) {
   )
 }
 
+export function ArrowUpIcon({ className = 'h-4 w-4' }) {
+  return (
+    <svg {...base} strokeWidth="2" className={className}>
+      <path d="M12 19V5M6 11l6-6 6 6" />
+    </svg>
+  )
+}
+
 export function CheckIcon({ className = 'h-4 w-4' }) {
   return (
     <svg {...base} strokeWidth="2.4" className={className}>

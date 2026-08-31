@@ -7,9 +7,14 @@ import { usePathname } from 'next/navigation'
 import { site, mainNav } from '@/data/site'
 import { services } from '@/data/services'
 import { cn } from '@/lib/utils'
-import { MenuIcon, CloseIcon, ArrowIcon, ServiceIcon } from '@/components/common/Icons'
-
-const headerNav = mainNav.filter((item) => item.href !== '/contact')
+import {
+  InstagramIcon,
+  LinkedInIcon,
+  MenuIcon,
+  CloseIcon,
+  ArrowIcon,
+  ServiceIcon,
+} from '@/components/common/Icons'
 
 export default function Header() {
   const pathname = usePathname()
@@ -92,7 +97,10 @@ export default function Header() {
           overHero && 'bg-transparent',
         )}
       >
-        <div className="flex w-full items-center gap-4 px-6 lg:px-8">
+        {/* Same container as the Footer and every page section, so the logo
+            and the Enquire button line up with the content column rather than
+            sitting hard against the viewport edge. */}
+        <div className="container-x flex items-center gap-4">
           {/* ---------------- Logo ---------------- */}
           {/*
             The supplied logo is a horizontal lockup that already contains the
@@ -116,8 +124,8 @@ export default function Header() {
           </Link>
 
           {/* ---------------- Desktop nav ---------------- */}
-          <nav className="ml-auto hidden items-center gap-1 lg:flex" aria-label="Main">
-            {headerNav.map((item) =>
+          <nav className="ml-auto hidden items-center gap-1 xl:flex" aria-label="Main">
+            {mainNav.map((item) =>
               item.href === '/services' ? (
                 <div
                   key={item.href}
@@ -129,8 +137,8 @@ export default function Header() {
                     href={item.href}
                     aria-expanded={servicesOpen}
                     className={cn(
-                      'relative flex items-center gap-1.5 px-3.5 py-2 text-[0.83rem] font-medium transition-colors duration-300',
-                      'after:absolute after:inset-x-3.5 after:-bottom-0.5 after:h-0.5 after:origin-left after:scale-x-0 after:rounded-full after:transition-transform after:duration-300 hover:after:scale-x-100',
+                      'relative flex items-center gap-1.5 px-3 py-2 text-[0.83rem] font-medium transition-colors duration-300',
+                      'after:absolute after:inset-x-3 after:-bottom-0.5 after:h-0.5 after:origin-left after:scale-x-0 after:rounded-full after:transition-transform after:duration-300 hover:after:scale-x-100',
                       isActive(item.href) && 'after:scale-x-100',
                       overHero ? 'after:bg-brand-300' : 'after:bg-brand-600',
                       overHero
@@ -203,9 +211,9 @@ export default function Header() {
                   key={item.href}
                   href={item.href}
                   className={cn(
-                    'relative px-3.5 py-2 text-[0.83rem] font-medium transition-colors duration-300',
+                    'relative px-3 py-2 text-[0.83rem] font-medium transition-colors duration-300',
                     // Underline marks the current page, as in the reference.
-                    'after:absolute after:inset-x-3.5 after:-bottom-0.5 after:h-0.5 after:origin-left after:scale-x-0 after:rounded-full after:transition-transform after:duration-300',
+                    'after:absolute after:inset-x-3 after:-bottom-0.5 after:h-0.5 after:origin-left after:scale-x-0 after:rounded-full after:transition-transform after:duration-300',
                     isActive(item.href) && 'after:scale-x-100',
                     overHero
                       ? isActive(item.href)
@@ -224,7 +232,38 @@ export default function Header() {
           </nav>
 
           {/* ---------------- Right side ---------------- */}
-          <div className="flex items-center gap-2 lg:ml-3">
+          <div className="flex items-center gap-2 xl:ml-3">
+            {/* Instagram + LinkedIn, per the brief. */}
+            <div className="hidden items-center gap-1 md:flex">
+              <a
+                href={site.socials.instagram}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Creation Publicity on Instagram"
+                className={cn(
+                  'rounded-full p-2 transition-all duration-300',
+                  overHero
+                    ? 'text-white/75 hover:bg-white/15 hover:text-white'
+                    : 'text-muted hover:bg-brand-50 hover:text-brand-700',
+                )}
+              >
+                <InstagramIcon className="h-[1.15rem] w-[1.15rem]" />
+              </a>
+              <a
+                href={site.socials.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Creation Publicity on LinkedIn"
+                className={cn(
+                  'rounded-full p-2 transition-all duration-300',
+                  overHero
+                    ? 'text-white/75 hover:bg-white/15 hover:text-white'
+                    : 'text-muted hover:bg-brand-50 hover:text-brand-700',
+                )}
+              >
+                <LinkedInIcon className="h-[1.15rem] w-[1.15rem]" />
+              </a>
+            </div>
             <Link
               href="/contact"
               className="btn btn-primary group hidden px-5 py-2.5 text-[0.8rem] sm:inline-flex"
@@ -239,7 +278,7 @@ export default function Header() {
               aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
               aria-expanded={mobileOpen}
               className={cn(
-                'rounded-full border p-2 transition-colors lg:hidden',
+                'rounded-full border p-3 transition-colors xl:hidden',
                 overHero
                   ? 'border-white/35 text-white hover:border-white hover:bg-white/10'
                   : 'border-brand-200 text-ink-800 hover:border-brand-400 hover:text-ink-900',
@@ -254,7 +293,7 @@ export default function Header() {
       {/* ---------------- Mobile drawer ---------------- */}
       <div
         className={cn(
-          'fixed inset-0 z-40 transition-all duration-300 lg:hidden',
+          'fixed inset-0 z-40 transition-all duration-300 xl:hidden',
           mobileOpen ? 'visible opacity-100' : 'invisible opacity-0',
         )}
       >
@@ -274,7 +313,7 @@ export default function Header() {
             mobileOpen ? 'translate-x-0' : 'translate-x-full',
           )}
         >
-          {headerNav.map((item) => (
+          {mainNav.map((item) => (
             <Link
               key={item.href}
               href={item.href}
@@ -297,7 +336,7 @@ export default function Header() {
                 key={service.slug}
                 href={`/services/${service.slug}`}
                 tabIndex={mobileOpen ? 0 : -1}
-                className="flex items-center gap-2.5 rounded-lg px-2 py-2 text-[0.85rem] text-muted transition-colors hover:bg-brand-50 hover:text-brand-700"
+                className="flex items-center gap-2.5 rounded-lg px-2 py-3 text-[0.85rem] text-muted transition-colors hover:bg-brand-50 hover:text-brand-700"
               >
                 <ServiceIcon name={service.icon} className="h-4 w-4 shrink-0 text-brand-500" />
                 {service.title}

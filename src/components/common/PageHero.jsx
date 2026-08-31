@@ -25,7 +25,7 @@ export default function PageHero({
   return (
     <section
       className={cn(
-        'relative overflow-hidden pb-10 pt-26 sm:pb-12 sm:pt-30 md:pb-14',
+        'relative overflow-hidden pb-10 pt-29 sm:pb-12 sm:pt-30 md:pb-14',
         className,
       )}
     >
